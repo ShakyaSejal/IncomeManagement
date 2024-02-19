@@ -17,7 +17,7 @@ def search_expenses(request):
                         category__istartswith = search_str, owner = request.user ) 
         date = expenses.value()
         return JsonResponse(list(date), safe=False)
-
+@login_required(login_url='/authentication/login')
 def index(request):
     categories = Category.objects.all()
     expenses = Expenses.objects.filter(owner = request.user)
@@ -45,6 +45,8 @@ def delete_expense(request, id):
     expense.delete()
     messages.success(request, 'Expense removed successfully')
     return redirect('expenses')
+
+@login_required(login_url='/authentication/login')
 
 def add_expenses(request):
     categories = Category.objects.all()
@@ -86,15 +88,7 @@ def add_expenses(request):
         messages.success(request,'expenses added successfully')
 
         return redirect('expenses')
-
-def edit_expenses(request, id):
-    expense = Expenses.objects.get(pk=id)
-    categories = Category.objects.all()
-    context = {
-        'expense':expense,
-        'categories': categories
-    }
-    return render(request, 'expenses/edit_expenses.html')
+@login_required(login_url='/authentication/login')
 def expense_edit(request, id):
     expense = Expenses.objects.get(pk=id)
     categories = Category.objects.all()

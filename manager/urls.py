@@ -20,9 +20,8 @@ from django.urls.conf import include
 
 urlpatterns = [
     path('', include('expenses.urls')),
-    path('', include('userincome.urls')),
-    path('', include('authentication.urls')),
-
+    path('income/', include('userincome.urls')),
+    path('authentication/', include('authentication.urls')),
     path("admin/", admin.site.urls),
 
 ]
